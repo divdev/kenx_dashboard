@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Chart</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script text="javascript" src="js/d3-master/d3.js"></script>
+  </head>
+  <body>
+    <script>
+    	var dataset = [5, 10, 15, 20, 25];
+    	var canvas = d3.select('body')
+    		.append('svg')
+    		.attr('width', 500)
+    		.attr('height', 500);
+
+    	var circle = canvas.append('circle')
+    		.attr('cx', 250)
+    		.attr('cy', 250)
+    		.attr('r', 50)
+    		.attr('fill', 'red');
+
+    	var rect = canvas.append('rect')
+    		.attr('width', 100)
+    		.attr('height', 50);
+
+    	var line = canvas.append('line')
+    		.attr('x1', 0).attr('y1', 100)
+    		.attr('x2', 400).attr('y2', 400)
+    		.attr('stroke', 'green')
+    		.attr('stroke-width', 10);
+    </script>
+  </body>
+</html>

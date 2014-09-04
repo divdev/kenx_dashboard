@@ -6,7 +6,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 100%;
-  color: #333;
+  color: rgb(0,0,5);
   background: black;
   padding: 0;
   margin: 0;
@@ -22,7 +22,6 @@ button {
 /*******************LEFT PANEL******************************/
 .left_container {
   background: rgb(60,60,65);
-  /*width: 4%;*/
   height: 100%;
   position: absolute;
   left: 0;
@@ -57,22 +56,22 @@ button.tab {
 }
 .axis path, .axis line {
   fill: none;
-  stroke: rgba(255,255,255,0.6);
+  stroke: rgba(210,210,215, 0.35);
   shape-rendering: crispEdges;
 }
 .axis text {
   font-family: sans-serif;
   font-size: 11px;
-  fill: rgba(255,255,255,0.8);
+  fill: rgba(210,210,215, 0.55);
 }
 .y {
-  fill: rgba(255,255,255,0.3);
+  fill: rgba(210,210,215, 0.35);
 }
 .slider {
-  fill: rgba(255,255,255,0.5);
+  fill: rgba(210,210,215,0.5);
 }
 .circle {
-  fill: rgba(120,190,255,0.9);
+  fill: rgba(120,190,255, 0.9);
 }
 
 /*******************SECTION STYLES************************/
@@ -89,12 +88,12 @@ button.tab {
 .wrapper h2 {
   font-size: 1.1em;
   width: inherit;
-  color: rgba(255,255,255,0.8);
+  color: rgb(210,210,215);
 }
 div.list {
   font-size: 1em;
   font-weight: normal;
-  fill: rgba(255,255,255,0.95);
+  fill: rgb(220,220,225);
 }
 
 
@@ -102,17 +101,17 @@ div.list {
 .bullet { 
   font: 10px sans-serif; 
   width: 220px;
-  /*margin-top: 1%;*/
   margin-left: 30px;
 }
 .bullet .marker { stroke: rgb(0,0,0); stroke-width: 6px; opacity: 0.3; }
 .bullet .threshold.s0 { fill: rgb(80,80,85); }
 .bullet .threshold.s1 { fill: rgb(60,60,65); }
 .bullet .threshold.s2 { fill: rgb(30,30,35); }
+.bullet .tick { fill: rgb(180,180,185); font-size: 0.8em; }
 .bullet .measure.s { fill: rgba(120,190,255,0.9); opacity: 0.85; }
 .bullet .measure.b { fill: rgba(255,0,0,0.9); opacity: 0.85; }
-.bullet .title { font-size: 1.3em; font-weight: bold; fill: rgba(255,255,255,0.8); }
-.bullet .date { fill: rgba(255,255,255,0.95); }
+.bullet .title { font-size: 1.3em; font-weight: bold; fill: rgb(210,210,215); }
+.bullet .date { fill: rgba(210,210,215, 0.55); }
 
 </style>
 
@@ -391,19 +390,25 @@ function tl() {
 
   tl.append('g')
     tl.append('text')
-      .attr('class', 'axis y')
-      .attr('x', 0)
-      .attr('y', 25)
+      .attr({
+        class: 'axis y',
+        x: 0,
+        y: 25
+      })
       .text('ED');
     tl.append('text')
-      .attr('class', 'axis y')
-      .attr('x', 0)
-      .attr('y', 55)
+      .attr({
+        class: 'axis y',
+        x: 0,
+        y: 55
+      })
       .text('Inpatient');
     tl.append('text')
-      .attr('class', 'axis y')
-      .attr('x', 0)
-      .attr('y', 85)
+      .attr({
+        class: 'axis y',
+        x: 0,
+        y: 85
+      })
       .text('Outpatient');
 
   var initialTlEventAttrs = {
@@ -458,19 +463,23 @@ function tl() {
     .data([{x: tlWidth, y: 10}]);
 
   var slider = sliderG.append('rect')
-    .attr('class', 'slider')
-    .attr('x', function(d) { return d.x - 5; })
-    .attr('y', function(d) { return d.y; })
-    .attr('height', sliderHeight)
-    .attr('width', sliderWidth)
-    .attr('cursor', 'move')
+    .attr({
+      class: 'slider',
+      x: function(d) { return d.x - 5; },
+      y: function(d) { return d.y; },
+      width: sliderWidth,
+      height: sliderHeight,
+      'cursor': 'move'
+    })
     .call(drag);
 
   //if slider crosses a circle, show the contents of that circle, with date
 
   tl.append('g')
-    .attr('class', 'axis')
-    .attr('transform', 'translate(0, 100)')
+    .attr({
+      class: 'axis',
+      transform: 'translate(0, 100)'
+    })
     .call(tlXAxis);
 
   tl.selectAll('.axis path')
@@ -491,45 +500,57 @@ var diagnosisDates = function(encounters) {
 diagnoses = d3.select('div#diagnoses').selectAll('svg.diagnosis')
   .data(diagnoses)
   .enter().append('svg')
-    .attr('class', 'diagnosis')
-    .attr('height', 25)
-    .attr('transform', 'translate(0, -25)');
+    .attr({
+      class: 'diagnosis',
+      height: 25,
+      transform: 'translate(0,-25)'
+    });
 
 var diagnosisInfo = diagnoses.append('g');
 
 diagnosisInfo.append('text')
-  .attr('class', 'itemName')
-  .attr('transform', 'translate(0, 15)')
+  .attr({
+    class: 'itemName',
+    transform: 'translate(0, 15)'
+  })
   .text(function(d) { return d.name });
 
 /************************D3 MEDICATIONS*****************************/
 medications = d3.select('div#medications').selectAll('svg.medication')
   .data(medications)
   .enter().append('svg')
-    .attr('class', 'medication')
-    .attr('height', 25)
-    .attr('transform', 'translate(0, -25)');
+    .attr({
+      class: 'medication',
+      height: 25,
+      transform: 'translate(0, -25)'
+    });
 
 var medicationInfo = medications.append('g');
 
 medicationInfo.append('text')
-  .attr('class', 'itemName')
-  .attr('transform', 'translate(0, 15)')
+  .attr({
+    class: 'itemName',
+    transform: 'translate(0, 15)'
+  })
   .text(function(d) { return d.name });
 
 /************************D3 ALLERGIES******************************/
 allergies = d3.select('div#allergies').selectAll('svg.allergy')
   .data(allergies)
   .enter().append('svg')
-    .attr('class', 'allergy')
-    .attr('height', 25)
-    .attr('transform', 'translate(0, -25)');
+    .attr({
+      class: 'allergy',
+      height: 25,
+      transform: 'translate(0, -25)'
+    });
 
 var allergyInfo = allergies.append('g');
 
 allergyInfo.append('text')
-  .attr('class', 'itemName')
-  .attr('transform', 'translate(0, 15)')
+  .attr({
+    class: 'itemName',
+    transform: 'translate(0, 15)'
+  })
   .text(function(d) { return d.name });
 
 /************************D3 LABS*********************************/
@@ -540,9 +561,11 @@ var bMargin = {top:40, right: 0, bottom: 50, left: 100},
 labs = d3.select('div#labs').selectAll('svg.bullet')
   .data(formattedLabs)
   .enter().append('svg')
-    .attr('class', 'bullet')
-    .attr('width', bWidth + bMargin.left + bMargin.right)
-    .attr('height', bHeight + bMargin.top)
+    .attr({
+      class: 'bullet',
+      width: bWidth + bMargin.left + bMargin.right,
+      height: bHeight + bMargin.top
+    })
     .append('g')
       .attr('transform', 'translate(' + bMargin.left  + ',10)');
 
@@ -565,19 +588,22 @@ labs.each(function(d, i) {
     .data(thresholdz);
 
   threshold.enter().append('rect')
-    .attr('class', function(d, i) { return 'threshold s' + i })
-    .attr('width', function(d, i) { return bRange(d) })
-    .attr('height', bHeight)
-    .attr('x', 0);
+    .attr({
+      class: function(d, i) { return 'threshold s' + i },
+      width: function(d, i) { return bRange(d) },
+      height: bHeight,
+      x: 0
+    });
 
   threshold.enter().append('text')
-    .attr('x', function(d) { return bRange(d) })
-    .attr('y', function(d) { return bHeight + 15 })
-    .attr('fill', '#aaa')
-    .attr('text-anchor', function(d, i) {
-      if(i === 0) { return 'end' } else { return 'start' };
+    .attr({
+      class: 'tick',
+      x: function(d) { return bRange(d) },
+      y: function(d) { return bHeight + 15 },
+      'text-anchor': function(d, i) {
+        if(i === 0) { return 'end' } else { return 'start' };
+      }
     })
-    .attr('font-size', '0.9em')
     .text(function(d) { return d });
 
   // Measure rects.
@@ -592,10 +618,12 @@ labs.each(function(d, i) {
         return 'measure s'; 
       };
     })
-    .attr('width', function(d, i) { return bRange(d) })
-    .attr('height', bHeight/3)
-    .attr('x', 0)
-    .attr('y', bHeight/3);
+    .attr({
+      width: function(d, i) { return bRange(d) },
+      height: bHeight/3,
+      x: 0,
+      y: bHeight/3
+    });
 
   measure.enter().append('text')
     .attr({
@@ -618,8 +646,10 @@ labName.append('text')
   .text(function(d) { return d.name; });
 
 labName.append('text')
-  .attr('class', 'date')
-  .attr('y', 15)
+  .attr({
+    class: 'date',
+    y: 15
+  })
   .text(function(d) { 
     return d.dates.slice(-1).pop();
   });

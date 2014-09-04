@@ -109,7 +109,7 @@ div.list {
 .bullet .threshold.s2 { fill: rgb(30,30,35); }
 .bullet .tick { fill: rgb(180,180,185); font-size: 0.8em; }
 .bullet .measure.s { fill: rgba(120,190,255,0.9); opacity: 0.85; }
-.bullet .measure.b { fill: rgba(255,0,0,0.9); opacity: 0.85; }
+.bullet .measure.b { fill: rgba(255,30,0,0.9); opacity: 0.85; }
 .bullet .title { font-size: 1.3em; font-weight: bold; fill: rgb(210,210,215); }
 .bullet .date { fill: rgba(210,210,215, 0.55); }
 
@@ -439,9 +439,9 @@ function tl() {
       tl.append('text')
         .attr({
           id: 't' + d.date + i,
-          fill: '#fff',
-          x: tlWidth + 40,
-          y: 30
+          fill: 'rgba(210,210,215, 0.85)',
+          x: tlWidth - 130,
+          y: 15
         })
         .text(function() {
           return d.date;

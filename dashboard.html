@@ -109,7 +109,7 @@ div.list {
 .bullet .threshold.s2 { fill: rgb(40,40,45); }
 .bullet .tick { fill: rgb(180,180,185); font-size: 0.8em; }
 .bullet .measure.s { fill: rgba(120,190,255,0.9); opacity: 0.85; }
-.bullet .measure.b { fill: rgba(255,30,0,0.9); opacity: 0.85; }
+.bullet .measure.b { fill: rgba(255,50,90,0.9); opacity: 0.85; }
 .bullet .title { font-size: 1.3em; font-weight: bold; fill: rgb(210,210,215); }
 .bullet .date { fill: rgba(210,210,215, 0.55); }
 
@@ -151,9 +151,8 @@ div.list {
   </div>
 </body>
 
-
+<script src="js/jQuery-uncompressed-1.11.1.js"></script>
 <script src="js/d3-master/d3.js"></script>
-<script src="js/d3-slider-master/d3.slider.js"></script>
 <script>
 
 /*************RANDOM GENERATOR FOR EXISTING ARRAYS*************/
@@ -413,7 +412,7 @@ function tl() {
 
   var initialTlEventAttrs = {
     class: 'circle',
-    r: 6,
+    r: 8,
     cx: function(d) { return tlX(d.date) },
     cy: function(d) {
       if(d.encounterType === 'ED') {
@@ -426,7 +425,7 @@ function tl() {
     }
   }
   var tlEventAttrs = {
-    r: 8
+    r: 12
   }
   var tlEvent = tl.selectAll('circle')
     .data(encounters);
@@ -651,7 +650,9 @@ labName.append('text')
     y: 15
   })
   .text(function(d) { 
-    return d.dates.slice(-1).pop();
+    var formatDate = d3.time.format('%d-%b-%y');
+    var lastDate = d.dates.slice(-1).pop();
+    return lastDate.formatDate;
   });
 
 

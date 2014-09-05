@@ -1,7 +1,7 @@
-gopher_dashboard
+kenx_dashboard
 ================
 
-Dashboard for Gopher EHR
+Dashboard for EHR
 
 This is eventually going to be an interactive tool for exploration into the patient's record of events and for modifying their charts quickly (adding a visit note, ordering a couple of medications, easily renewing/discontinuing medications, and so on).
 

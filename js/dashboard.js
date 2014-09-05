@@ -302,8 +302,22 @@ function tl() {
   var drag = d3.behavior.drag()
     .on('drag', dragmove);
 
+// TODO - change ot make dot x
+  var lastEncounter = null;
+  $.each(encounters, function() {
+    if (lastEncounter == null || $(this).date > lastEncounter) {
+      lastEncounter = $(this);
+    }
+  });
+  var lastCircle = null;
+  $(".circle").each(function() {
+    if (lastCircle == null || $(this).attr('cx') > lastCircle) {
+      lastCircle = $(this).attr('cx');
+    } 
+  });
+  var lastX = tlX(lastEncounter.date);
   var sliderG = tl.append('g')
-    .data([{x: tlWidth, y: 10}]);
+    .data([{x: lastCircle + 10, y: 10}]);  // tlWidth
 
   var slider = sliderG.append('rect')
     .attr({

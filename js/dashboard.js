@@ -1,54 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<head>
-  <link rel="stylesheet" type="text/css" href="css/dashboard.css">
-</head>
-
-
-<body>
-  <!-- <div class="left_container">
-    
-  </div> -->
-  <div class="timeline_container">
-    <button class="tab" id="manage">Manage</button>
-    <button class="tab active" id="history">History</button>
-    <div id="timeline"></div>
-    <div class="wrapper small" id="labs_wrapper">
-      <!-- <h2></h2> -->
-      <div class="list">
-        <div id="labs"></div>
-      </div>
-    </div>
-    <div class="wrapper small" id="problems_wrapper">
-      <h2>Diagnoses</h2>
-      <div class="list">
-        <div id="diagnoses"></div>
-      </div>
-    </div>
-    <div class="wrapper medium" id="medications_wrapper">
-      <h2>Medications</h2>
-      <div class="list">
-        <div id="medications"></div>
-      </div>
-    </div>
-    <div class="wrapper small" id="allergies_wrapper">
-      <h2>Allergies</h2>
-      <div class="list">
-        <div id="allergies"></div>
-      </div>
-    </div>
-    <div class="wrapper large" id="notes_wrapper">
-      <h2>Notes</h2>
-      <div class="list">
-        <div id="notes"></div>
-      </div>
-    </div>
-  </div>
-</body>
-
-<script src="js/jQuery-uncompressed-1.11.1.js"></script>
-<script src="js/d3-master/d3.js"></script>
-<script>
 
 /*************RANDOM GENERATOR FOR EXISTING ARRAYS*************/
 window.choice = function() {
@@ -549,10 +498,4 @@ labName.append('text')
     var lastDate = d.dates.slice(-1).pop();
     return d.dates.slice(-1).pop();
   });
-
-
-</script>
-
-
-
 

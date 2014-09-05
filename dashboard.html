@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
+html {
+  padding: 0;
+  margin: 0;
+}
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 100%;
-  color: rgb(20,20,25);
-  background: black;
+  background: rgb(20,20,25);
   padding: 0;
   margin: 0;
 }
@@ -20,18 +22,20 @@ button {
   vertical-align: middle;
 }
 /*******************LEFT PANEL******************************/
-.left_container {
+/*.left_container {
   background: rgb(60,60,65);
   height: 100%;
   position: absolute;
   left: 0;
-}
+}*/
 
 /******************TIMELINE STYLES**************************/
 .timeline_container {
-  position: absolute;
+  position: fixed;
   top: 65px;
-  left: 5%;
+  width: 100%;
+  left: 0;
+  padding: 0;
   margin: 0 auto;
 }
 button.tab {
@@ -40,18 +44,19 @@ button.tab {
   height: 35px;
   position: absolute;
   top: 50px;
-  margin-left: 0;
+  left: 0;
+  margin-left: -10px;
   font-size: 1.1em;
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 .tab.active {
-  margin-left: 35px;
+  margin-left: 25px;
   background: rgb(60,60,65);
 }
 #timeline {
   overflow: scrollX;
-  /*position: relative;*/
+  width: 85%;
   margin-left: 140px;
 }
 .axis path, .axis line {
@@ -61,11 +66,12 @@ button.tab {
 }
 .axis text {
   font-family: sans-serif;
-  font-size: 11px;
+  font-size: 0.7em;
   fill: rgba(210,210,215, 0.55);
 }
 .y {
   fill: rgba(210,210,215, 0.35);
+  font-size: 0.8em;
 }
 .slider {
   fill: rgba(210,210,215,0.5);
@@ -79,25 +85,31 @@ button.tab {
   padding-right: 1%;
   float: left;
 }
-.big {
-  width: 22%;
+.large {
+  width: 21%;
+}
+.medium {
+  width: 18%;
 }
 .small {
-  width: 16%;
+  width: 13%;
 }
 .wrapper h2 {
-  font-size: 1.1em;
+  font-size: 1em;
   width: inherit;
   color: rgb(210,210,215);
 }
 div.list {
-  font-size: 1em;
+  font-size: 0.8em;
   font-weight: normal;
   fill: rgb(220,220,225);
 }
 
 
 /**********************LABS STYLES************************/
+#labs_wrapper {
+  margin-left: 3%;
+}
 .bullet { 
   font: 10px sans-serif; 
   width: 220px;
@@ -110,7 +122,7 @@ div.list {
 .bullet .tick { fill: rgb(180,180,185); font-size: 0.8em; }
 .bullet .measure.s { fill: rgba(120,190,255,0.9); opacity: 0.85; }
 .bullet .measure.b { fill: rgba(255,50,90,0.9); opacity: 0.85; }
-.bullet .title { font-size: 1.3em; font-weight: bold; fill: rgb(210,210,215); }
+.bullet .title { font-size: 1.2em; fill: rgb(210,210,215); }
 .bullet .date { fill: rgba(210,210,215, 0.55); }
 
 </style>
@@ -124,7 +136,7 @@ div.list {
     <button class="tab" id="manage">Manage</button>
     <button class="tab active" id="history">History</button>
     <div id="timeline"></div>
-    <div class="wrapper big" id="labs_wrapper">
+    <div class="wrapper small" id="labs_wrapper">
       <!-- <h2></h2> -->
       <div class="list">
         <div id="labs"></div>
@@ -136,7 +148,7 @@ div.list {
         <div id="diagnoses"></div>
       </div>
     </div>
-    <div class="wrapper small" id="medications_wrapper">
+    <div class="wrapper medium" id="medications_wrapper">
       <h2>Medications</h2>
       <div class="list">
         <div id="medications"></div>
@@ -146,6 +158,12 @@ div.list {
       <h2>Allergies</h2>
       <div class="list">
         <div id="allergies"></div>
+      </div>
+    </div>
+    <div class="wrapper large" id="notes_wrapper">
+      <h2>Notes</h2>
+      <div class="list">
+        <div id="notes"></div>
       </div>
     </div>
   </div>
@@ -367,9 +385,9 @@ var formattedEncounters = JSON.parse(json_encounters); // I did this extra stuff
 
 /***********************D3 ENCOUNTERS************************/
 function tl() {
-  var totalWidth = 900,
+  var totalWidth = 1200,
       tlMargin = {top:0, right: 0, bottom: 50, left: 0},
-      tlWidth = 800,
+      tlWidth = 1200,
       tlHeight = 150;
 
   var tl = d3.select('div#timeline').append('svg')
@@ -553,8 +571,8 @@ allergyInfo.append('text')
   .text(function(d) { return d.name });
 
 /************************D3 LABS*********************************/
-var bMargin = {top:40, right: 0, bottom: 50, left: 100},
-    bWidth = 80,
+var bMargin = {top:50, right: 0, bottom: 50, left: 100},
+    bWidth = 100,
     bHeight = 20;
 
 labs = d3.select('div#labs').selectAll('svg.bullet')
@@ -566,7 +584,7 @@ labs = d3.select('div#labs').selectAll('svg.bullet')
       height: bHeight + bMargin.top
     })
     .append('g')
-      .attr('transform', 'translate(' + bMargin.left  + ',10)');
+      .attr('transform', 'translate(0,30)');
 
 labs.each(function(d, i) {
   ranges = function(d) { return d.ranges },
@@ -598,7 +616,7 @@ labs.each(function(d, i) {
     .attr({
       class: 'tick',
       x: function(d) { return bRange(d) },
-      y: function(d) { return bHeight + 15 },
+      y: function(d) { return bHeight + 10 },
       'text-anchor': function(d, i) {
         if(i === 0) { return 'end' } else { return 'start' };
       }
@@ -637,8 +655,8 @@ labs.each(function(d, i) {
 
 // Name
 var labName = labs.append('g')
-  .style('text-anchor', 'end')
-  .attr('transform', 'translate(-10,' + bHeight/1.5 + ')');
+  // .style('text-anchor', 'start')
+  .attr('transform', 'translate(0,-18)');
 
 labName.append('text')
   .attr('class', 'title')
@@ -647,12 +665,12 @@ labName.append('text')
 labName.append('text')
   .attr({
     class: 'date',
-    y: 15
+    y: 12
   })
   .text(function(d) { 
     var formatDate = d3.time.format('%d-%b-%y');
     var lastDate = d.dates.slice(-1).pop();
-    return lastDate.formatDate;
+    return d.dates.slice(-1).pop();
   });
 
 

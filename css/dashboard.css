@@ -1,0 +1,123 @@
+html {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 100%;
+  background: rgb(20,20,25);
+  padding: 0;
+  margin: 0;
+}
+button {
+  -webkit-appearance: none;
+  border: none;
+  color: rgba(120,190,255,0.9);
+  font-weight: bolder;
+  font-size: 0.6em;
+  vertical-align: middle;
+}
+/*******************LEFT PANEL******************************/
+/*.left_container {
+  background: rgb(60,60,65);
+  height: 100%;
+  position: absolute;
+  left: 0;
+}*/
+
+/******************TIMELINE STYLES**************************/
+.timeline_container {
+  position: fixed;
+  top: 65px;
+  width: 100%;
+  left: 0;
+  padding: 0;
+  margin: 0 auto;
+}
+button.tab {
+  background: rgb(30,30,35);
+  width: 130px;
+  height: 35px;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  margin-left: -10px;
+  font-size: 1.1em;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.tab.active {
+  margin-left: 25px;
+  background: rgb(60,60,65);
+}
+#timeline {
+  overflow: scrollX;
+  width: 85%;
+  margin-left: 140px;
+}
+.axis path, .axis line {
+  fill: none;
+  stroke: rgba(210,210,215, 0.35);
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: sans-serif;
+  font-size: 0.7em;
+  fill: rgba(210,210,215, 0.55);
+}
+.y {
+  fill: rgba(210,210,215, 0.35);
+  font-size: 0.8em;
+}
+.slider {
+  fill: rgba(210,210,215,0.5);
+}
+.circle {
+  fill: rgba(120,190,255, 0.9);
+}
+
+/*******************SECTION STYLES************************/
+.wrapper {
+  padding-right: 1%;
+  float: left;
+}
+.large {
+  width: 21%;
+}
+.medium {
+  width: 18%;
+}
+.small {
+  width: 13%;
+}
+.wrapper h2 {
+  font-size: 1em;
+  width: inherit;
+  color: rgb(210,210,215);
+}
+div.list {
+  font-size: 0.8em;
+  font-weight: normal;
+  fill: rgb(220,220,225);
+}
+
+
+/**********************LABS STYLES************************/
+#labs_wrapper {
+  margin-left: 3%;
+}
+.bullet { 
+  font: 10px sans-serif; 
+  width: 220px;
+  margin-left: 30px;
+}
+.bullet .marker { stroke: rgb(0,0,0); stroke-width: 6px; opacity: 0.3; }
+.bullet .threshold.s0 { fill: rgb(90,90,95); }
+.bullet .threshold.s1 { fill: rgb(70,70,75); }
+.bullet .threshold.s2 { fill: rgb(40,40,45); }
+.bullet .tick { fill: rgb(180,180,185); font-size: 0.8em; }
+.bullet .measure.s { fill: rgba(120,190,255,0.9); opacity: 0.85; }
+.bullet .measure.b { fill: rgba(255,50,90,0.9); opacity: 0.85; }
+.bullet .title { font-size: 1.2em; fill: rgb(210,210,215); }
+.bullet .date { fill: rgba(210,210,215, 0.55); }

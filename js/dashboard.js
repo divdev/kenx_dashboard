@@ -303,21 +303,22 @@ function tl() {
     .on('drag', dragmove);
 
 // TODO - change ot make dot x
-  var lastEncounter = null;
-  $.each(encounters, function() {
-    if (lastEncounter == null || $(this).date > lastEncounter) {
-      lastEncounter = $(this);
-    }
-  });
+  // var lastEncounter = null;
+  // $.each(encounters, function() {
+  //   if (lastEncounter == null || $(this).date > lastEncounter) {
+  //     lastEncounter = $(this);
+  //   }
+  // });
   var lastCircle = null;
   $(".circle").each(function() {
-    if (lastCircle == null || $(this).attr('cx') > lastCircle) {
-      lastCircle = $(this).attr('cx');
+    var thisDouble = parseFloat($(this).attr('cx')) ;
+    if (lastCircle == null || thisDouble > lastCircle) {
+      lastCircle = thisDouble;
     } 
   });
-  var lastX = tlX(lastEncounter.date);
+  //var lastX = tlX(lastEncounter.date);
   var sliderG = tl.append('g')
-    .data([{x: lastCircle + 10, y: 10}]);  // tlWidth
+    .data([{x: lastCircle  + 3, y: 10}]);  // tlWidth
 
   var slider = sliderG.append('rect')
     .attr({

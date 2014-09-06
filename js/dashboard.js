@@ -116,6 +116,17 @@ allergies.push(allergy_0, allergy_1, allergy_2, allergy_3);
 var json_allergies = JSON.stringify(allergies);
 var formattedAllergies = JSON.parse(json_allergies); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
 
+/***********************NOTES GENERATOR********************/
+var Note = function(name, text) {
+  this.name = name;
+  this.date = window.choice.call(encountersDates);
+  this.text = text;
+}
+
+var notes = [];
+var note_0 = new Note('Visit Note', 'Remember that time when I said, "Hey! You look just like Freddy Mercury!" and you were like, "Ugh. I hear that all the time. It just means that people immediately home in on my overbite." And I was like, "Yeah, but can you sing?"')
+notes.push(note_0);
+
 /**********************LAB GENERATOR***********************/
 var Lab = function(name, ranges, measuresMin, measuresMax) {
   var min = 4,
@@ -173,8 +184,7 @@ var Encounter = function() {
       maxMedications = 9,
       numMedications = getRandomInt(minMedications, maxMedications);
 
-  // var encounterAllergies = [],
-  //     numAllergies = 0;
+  var encounterNote = window.choice.call(notes);
 
   var encounterTypes = ['ED', 'Inpatient', 'Outpatient'],
       randomEncounterType = window.choice.call(encounterTypes);
@@ -188,7 +198,7 @@ var Encounter = function() {
   this.encounterDiagnoses = encounterDiagnoses;
   this.encounterMedications = encounterMedications;
   // this.labsOrdered = labsOrdered;
-  // this.encounterAllergies = encounterAllergies;
+  this.encounterNote = encounterNote;
   this.encounterType = randomEncounterType;
   this.date = diff;
 
@@ -221,9 +231,9 @@ var formattedEncounters = JSON.parse(json_encounters); // I did this extra stuff
 
 /***********************D3 ENCOUNTERS************************/
 function tl() {
-  var totalWidth = 730,
+  var totalWidth = 750,
       tlMargin = {top:0, right: 0, bottom: 50, left: 0},
-      tlWidth = 700,
+      tlWidth = 740,
       tlHeight = 150;
 
   var tl = d3.select('div#timeline').append('svg')
@@ -356,20 +366,16 @@ tl();
 /***************************D3 DATE*********************************/
 var lastEncounter = encounters.pop();
 
-// lastDateTitle = d3.select('h1').selectAll('text')
-//   .data(encounters)
-//   .enter().append('text')
-//     .attr({
-
-//     })
-//     .text(function(d) { return d.date });
+lastDateTitle = d3.select('h1').selectAll('text')
+  .data(lastEncounter)
+  .enter().append('text')
+    .attr({
+      x: 30,
+      y: 40
+    })
+    .text(function(d) { return d.date });
 
 /***************************D3 PROBLEMS*****************************/
-// var diagnosisDates = function(encounters) { 
-//   if(diagnoses.name === this.encounterDiagnoses) {
-//     return this.date;
-//   } 
-// }
 diagnoses = d3.select('div#diagnoses').selectAll('svg.diagnosis')
   .data(diagnoses)
   .enter().append('svg')
@@ -413,24 +419,29 @@ medicationInfo.append('text')
   })
   .text(function(d) { return d.sig });
 
-/************************D3 ALLERGIES******************************/
-// allergies = d3.select('div#allergies').selectAll('svg.allergy')
-//   .data(allergies)
-//   .enter().append('svg')
-//     .attr({
-//       class: 'allergy',
-//       height: 25,
-//       transform: 'translate(0, -25)'
-//     });
+/************************D3 NOTES******************************/
+notes = d3.select('div#notes').selectAll('svg.note')
+  .data(notes)
+  .enter().append('svg')
+    .attr({
+      class: 'note'
+    });
 
-// var allergyInfo = allergies.append('g');
+var noteInfo = notes.append('g');
 
-// allergyInfo.append('text')
-//   .attr({
-//     class: 'itemName',
-//     transform: 'translate(0, 15)'
-//   })
-//   .text(function(d) { return d.name });
+noteInfo.append('text')
+  .attr({
+    class: 'noteTitle',
+    transform: 'translate(0,15)'
+  })
+  .text(function(d) { return d.name });
+
+noteInfo.append('text')
+  .attr({
+    class: 'noteText',
+    transform: 'translate(0,40)'
+  })
+  .text(function(d) { return d.text });
 
 /************************D3 LABS*********************************/
 var bMargin = {top:50, right: 0, bottom: 50, left: 100},

@@ -27,33 +27,29 @@ button {
 }*/
 
 /******************TIMELINE STYLES**************************/
-.timeline_container {
-  position: fixed;
-  top: 65px;
-  width: 100%;
-  left: 0;
+#timeline_container {
+  width: 70%;
+  float: left;
   padding: 0;
-  margin: 0 auto;
+  margin: 65px auto 0;
 }
 button.tab {
   background: rgb(30,30,35);
   width: 130px;
   height: 35px;
-  position: absolute;
-  top: 50px;
-  left: 0;
+  position: relative;
+  top: 80px;
   margin-left: -10px;
   font-size: 1.1em;
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 .tab.active {
-  margin-left: 25px;
+  margin-left: -95px;
   background: rgb(60,60,65);
 }
 #timeline {
-  overflow: scrollX;
-  width: 85%;
+  overflow: scroll;
   margin-left: 140px;
 }
 .axis path, .axis line {
@@ -77,6 +73,11 @@ button.tab {
   fill: rgba(120,190,255, 0.9);
 }
 
+/********************TITLE********************************/
+h1 text {
+  font-size: 1.3em;
+}
+
 /*******************SECTION STYLES************************/
 .wrapper {
   padding-right: 1%;
@@ -89,23 +90,31 @@ button.tab {
   width: 18%;
 }
 .small {
-  width: 13%;
+  width: 18%;
 }
 .wrapper h2 {
-  font-size: 1em;
+  font-size: 1.2em;
   width: inherit;
   color: rgb(210,210,215);
 }
+#diagnoses_wrapper {
+  margin-left: 5%;
+}
 div.list {
-  font-size: 0.8em;
+  font-size: 0.95em;
   font-weight: normal;
   fill: rgb(220,220,225);
 }
 
 
 /**********************LABS STYLES************************/
-#labs_wrapper {
-  margin-left: 3%;
+#labs_container {
+  width: 30%;
+  height: 690px;
+  float: right;
+  margin-top: 60px;
+  overflow: scroll;
+  box-shadow: 0 -5px 0px rgba(255,255,255, 0.1) inset;
 }
 .bullet { 
   font: 10px sans-serif; 
@@ -119,5 +128,12 @@ div.list {
 .bullet .tick { fill: rgb(180,180,185); font-size: 0.8em; }
 .bullet .measure.s { fill: rgba(120,190,255,0.9); opacity: 0.85; }
 .bullet .measure.b { fill: rgba(255,50,90,0.9); opacity: 0.85; }
-.bullet .title { font-size: 1.2em; fill: rgb(210,210,215); }
+.bullet .title { font-size: 1.3em; fill: rgb(210,210,215); }
 .bullet .date { fill: rgba(210,210,215, 0.55); }
+.bullet .spark { 
+  stroke: rgb(210,210,215);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}

@@ -27,6 +27,12 @@ function eliminateDuplicates(arr) {
   return out;
 }
 
+// TRYING TO FORMAT DATES DIFFERENTLY, BUT CAN'T PERFORM THE OPERATIONS ON THEM LIKE I HAVE BELOW
+// var formatDate = d3.time.format('%d-%b-%Y');
+// var today = formatDate(new Date);
+// var tenYears = formatDate - (3650*86400000);
+// var tenYears = formatDate();
+// formatDate = d3.time.year.range(new Date(200), new Date());
 /********************CREATE RANDOM NUM*************************/
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -77,21 +83,22 @@ var json_diagnoses = JSON.stringify(diagnoses);
 var formattedDiagnoses = JSON.parse(json_diagnoses); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
 
 /*********************MEDICATION GENERATOR******************/
-var Medication = function(name) {
+var Medication = function(name, sigs) {
   this.name = name;
+  this.sigs = sigs;
 }
 
 var medications = [];
-var medication_0 = new Medication('Acetaminophen');
-var medication_1 = new Medication('Albuterol');
-var medication_2 = new Medication('Butanolol');
-var medication_3 = new Medication('Citalopram');
-var medication_4 = new Medication('Daprelide');
-var medication_5 = new Medication('Lorazepam');
-var medication_6 = new Medication('Miracle Drug');
-var medication_7 = new Medication('Nasal Spray 400');
-var medication_8 = new Medication('Prozac');
-var medication_9 = new Medication('Identaloz');
+var medication_0 = new Medication('Acetaminophen', '325 mg tab by mouth as needed for fever not to exceed 6 times daily');
+var medication_1 = new Medication('Albuterol', 'Super special nebulizer for a super special boy!');
+var medication_2 = new Medication('Butanolol', 'Made up drug, so who cares');
+var medication_3 = new Medication('Citalopram', '20 mg tab by mouth daily before bed');
+var medication_4 = new Medication('Daprelide', '20 mg tab by mouth daily before bed');
+var medication_5 = new Medication('Lorazepam', '20 mg tab by mouth daily before bed');
+var medication_6 = new Medication('Miracle Drug', '20 mg tab by mouth daily before bed');
+var medication_7 = new Medication('Nasal Spray 400', '20 mg tab by mouth daily before bed');
+var medication_8 = new Medication('Prozac', '20 mg tab by mouth daily before bed');
+var medication_9 = new Medication('Identaloz', '20 mg tab by mouth daily before bed');
 medications.push(medication_0, medication_1, medication_2, medication_3, medication_4, medication_5, medication_6, medication_7, medication_8, medication_9);
 var json_medications = JSON.stringify(medications);
 var formattedMedication = JSON.parse(json_medications); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
@@ -112,7 +119,7 @@ var formattedAllergies = JSON.parse(json_allergies); // I did this extra stuff b
 /**********************LAB GENERATOR***********************/
 var Lab = function(name, ranges, measuresMin, measuresMax) {
   var min = 4,
-      max = encountersTimes.length,
+      max = encountersDates.length,
       numMeasures = getRandomInt(min, max),
       measures = [],
       dates = [];
@@ -132,7 +139,7 @@ var Lab = function(name, ranges, measuresMin, measuresMax) {
     measures.push(randomInt);
   }
   function createDates() {
-    var randomDate = window.choice.call(encountersTimes);
+    var randomDate = window.choice.call(encountersDates);
     dates.push(randomDate);
   }
 }
@@ -146,8 +153,11 @@ var restingPulse = new Lab("Resting Pulse", [40,70,90,155], 45, 130);
 var hgbA1C = new Lab("Hgb A1C", [4.0,5.6,6.4,7.0], 4.1, 6.0);
 var cholesterol = new Lab("Cholesterol", [160,200,220,240], 161, 230);
 var triglycerides = new Lab("Triglycerides", [0,150,199,499], 30, 350);
+var anotherLab = new Lab("Another Lab", [4.0,5.6,6.4,7.0], 4.1, 6.0);
+var anotherMeasure = new Lab("Another Measure", [160,200,220,240], 161, 230);
+var anotherVital = new Lab("Another Vital", [0,150,199,499], 30, 350);
 
-labs.push(weight, sysBP, diasBP, restingPulse, hgbA1C, cholesterol, triglycerides);
+labs.push(weight, sysBP, diasBP, restingPulse, hgbA1C, cholesterol, triglycerides, anotherLab, anotherMeasure, anotherVital);
 var json_labs = JSON.stringify(labs);
 var formattedLabs = JSON.parse(json_labs); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
 
@@ -173,7 +183,7 @@ var Encounter = function() {
   var randomTenYear = Math.floor(Math.random() * (3650)),
       today = new Date(),
       diff = today - (randomTenYear*86400000),
-      randomDate = new Date(diff).toUTCString();
+      randomDate = new Date(diff);
 
   this.encounterDiagnoses = encounterDiagnoses;
   this.encounterMedications = encounterMedications;
@@ -200,8 +210,8 @@ var Encounter = function() {
   }
 }
 
-var encounters = [encountersTimes.length];
-for(var i = 0; i < encountersTimes.length; i++) {
+var encounters = [encountersDates.length];
+for(var i = 0; i < encountersDates.length; i++) {
   var encounter = new Encounter();
   encounters[i] = encounter;
 }
@@ -211,9 +221,9 @@ var formattedEncounters = JSON.parse(json_encounters); // I did this extra stuff
 
 /***********************D3 ENCOUNTERS************************/
 function tl() {
-  var totalWidth = 1200,
+  var totalWidth = 800,
       tlMargin = {top:0, right: 0, bottom: 50, left: 0},
-      tlWidth = 1200,
+      tlWidth = 800,
       tlHeight = 150;
 
   var tl = d3.select('div#timeline').append('svg')
@@ -229,7 +239,7 @@ function tl() {
         .ticks(25)
         .scale(tlX)
         .orient('bottom')
-        .tickFormat(d3.time.format("%b-%y"));
+        .tickFormat(d3.time.format("%b-%Y"));
 
   tl.append('g')
     tl.append('text')
@@ -297,18 +307,12 @@ function tl() {
     });
 
   var sliderHeight = 120,
-      sliderWidth = 5;
+      sliderWidth = 6;
 
   var drag = d3.behavior.drag()
     .on('drag', dragmove);
 
-// TODO - change ot make dot x
-  // var lastEncounter = null;
-  // $.each(encounters, function() {
-  //   if (lastEncounter == null || $(this).date > lastEncounter) {
-  //     lastEncounter = $(this);
-  //   }
-  // });
+// TODO - change to make dot x
   var lastCircle = null;
   $(".circle").each(function() {
     var thisDouble = parseFloat($(this).attr('cx')) ;
@@ -316,9 +320,8 @@ function tl() {
       lastCircle = thisDouble;
     } 
   });
-  //var lastX = tlX(lastEncounter.date);
   var sliderG = tl.append('g')
-    .data([{x: lastCircle  + 3, y: 10}]);  // tlWidth
+    .data([{x: lastCircle  + 2, y: 10}]);  // tlWidth
 
   var slider = sliderG.append('rect')
     .attr({
@@ -349,12 +352,24 @@ function tl() {
   }
 };
 tl();
+
+/***************************D3 DATE*********************************/
+var lastEncounter = encounters.pop();
+
+// lastDateTitle = d3.select('h1').selectAll('text')
+//   .data(encounters)
+//   .enter().append('text')
+//     .attr({
+
+//     })
+//     .text(function(d) { return d.date });
+
 /***************************D3 PROBLEMS*****************************/
-var diagnosisDates = function(encounters) { 
-  if(diagnoses.name === this.encounterDiagnoses) {
-    return this.date;
-  } 
-}
+// var diagnosisDates = function(encounters) { 
+//   if(diagnoses.name === this.encounterDiagnoses) {
+//     return this.date;
+//   } 
+// }
 diagnoses = d3.select('div#diagnoses').selectAll('svg.diagnosis')
   .data(diagnoses)
   .enter().append('svg')
@@ -392,24 +407,30 @@ medicationInfo.append('text')
   })
   .text(function(d) { return d.name });
 
-/************************D3 ALLERGIES******************************/
-allergies = d3.select('div#allergies').selectAll('svg.allergy')
-  .data(allergies)
-  .enter().append('svg')
-    .attr({
-      class: 'allergy',
-      height: 25,
-      transform: 'translate(0, -25)'
-    });
-
-var allergyInfo = allergies.append('g');
-
-allergyInfo.append('text')
+medicationInfo.append('text')
   .attr({
-    class: 'itemName',
-    transform: 'translate(0, 15)'
+    class: 'itemName'
   })
-  .text(function(d) { return d.name });
+  .text(function(d) { return d.sig });
+
+/************************D3 ALLERGIES******************************/
+// allergies = d3.select('div#allergies').selectAll('svg.allergy')
+//   .data(allergies)
+//   .enter().append('svg')
+//     .attr({
+//       class: 'allergy',
+//       height: 25,
+//       transform: 'translate(0, -25)'
+//     });
+
+// var allergyInfo = allergies.append('g');
+
+// allergyInfo.append('text')
+//   .attr({
+//     class: 'itemName',
+//     transform: 'translate(0, 15)'
+//   })
+//   .text(function(d) { return d.name });
 
 /************************D3 LABS*********************************/
 var bMargin = {top:50, right: 0, bottom: 50, left: 100},
@@ -492,11 +513,36 @@ labs.each(function(d, i) {
       'font-weight': 'bold'
     })
     .text(function(d) { return d });
+
+  //Spark lines for your pleasure
+  // var spark = g.selectAll('svg')
+  //   .data(measurez);
+
+  // var yRange = d3.scale.linear().range([0, bHeight]).domain([d3.min(measurez, function(d) { return d.y }), d3.max(measurez, function(d) { return d.y })]);
+
+  // var lineFunc = d3.svg.line()
+  //   .x(function(d, i) { 
+  //     for(var i = measures.length; i > measures.length-5; i--) {
+  //       return 10 * i;
+  //     }
+  //   })
+  //   .y(function(d) { return yRange(d.y) })
+  //   .interpolate('linear');
+
+  // spark.enter().append('svg:path')
+  //   .attr({
+  //     d: lineFunc(measurez),
+  //     stroke: 'rgb(180,180,185)',
+  //     'stroke-width': 1.5,
+  //     'stroke-linecap': 'round',
+  //     'stroke-linejoin': 'round',
+  //     fill: 'none'
+  //   });
+
 });
 
 // Name
 var labName = labs.append('g')
-  // .style('text-anchor', 'start')
   .attr('transform', 'translate(0,-18)');
 
 labName.append('text')
@@ -508,9 +554,11 @@ labName.append('text')
     class: 'date',
     y: 12
   })
-  .text(function(d) { 
-    var formatDate = d3.time.format('%d-%b-%y');
-    var lastDate = d.dates.slice(-1).pop();
+  .text(function(d) {
+    // var lastDate = d.dates.slice(-1).pop();
+    // var formatDate = d3.time.format('%d-%b-%Y');
+    // formatDate(lastDate);
     return d.dates.slice(-1).pop();
   });
+
 

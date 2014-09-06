@@ -147,9 +147,9 @@ var Lab = function(name, ranges, measuresMin, measuresMax) {
 var labs = [];
 
 var weight = new Lab("Weight", [100,150,225,350], 100, 300);
+var restingPulse = new Lab("Resting Pulse", [40,70,90,155], 45, 130);
 var sysBP = new Lab("Sys BP", [100,120,140,160], 101, 150);
 var diasBP = new Lab("Dias BP", [60,80,90,100], 61, 99);
-var restingPulse = new Lab("Resting Pulse", [40,70,90,155], 45, 130);
 var hgbA1C = new Lab("Hgb A1C", [4.0,5.6,6.4,7.0], 4.1, 6.0);
 var cholesterol = new Lab("Cholesterol", [160,200,220,240], 161, 230);
 var triglycerides = new Lab("Triglycerides", [0,150,199,499], 30, 350);
@@ -157,7 +157,7 @@ var anotherLab = new Lab("Another Lab", [4.0,5.6,6.4,7.0], 4.1, 6.0);
 var anotherMeasure = new Lab("Another Measure", [160,200,220,240], 161, 230);
 var anotherVital = new Lab("Another Vital", [0,150,199,499], 30, 350);
 
-labs.push(weight, sysBP, diasBP, restingPulse, hgbA1C, cholesterol, triglycerides, anotherLab, anotherMeasure, anotherVital);
+labs.push(weight, restingPulse, sysBP, diasBP, hgbA1C, cholesterol, triglycerides, anotherLab, anotherMeasure, anotherVital);
 var json_labs = JSON.stringify(labs);
 var formattedLabs = JSON.parse(json_labs); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
 
@@ -221,9 +221,9 @@ var formattedEncounters = JSON.parse(json_encounters); // I did this extra stuff
 
 /***********************D3 ENCOUNTERS************************/
 function tl() {
-  var totalWidth = 800,
+  var totalWidth = 730,
       tlMargin = {top:0, right: 0, bottom: 50, left: 0},
-      tlWidth = 800,
+      tlWidth = 700,
       tlHeight = 150;
 
   var tl = d3.select('div#timeline').append('svg')

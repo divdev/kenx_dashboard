@@ -83,9 +83,9 @@ var json_diagnoses = JSON.stringify(diagnoses);
 var formattedDiagnoses = JSON.parse(json_diagnoses); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
 
 /*********************MEDICATION GENERATOR******************/
-var Medication = function(name, sigs) {
+var Medication = function(name, sig) {
   this.name = name;
-  this.sigs = sigs;
+  this.sig = sig;
 }
 
 var medications = [];
@@ -124,8 +124,10 @@ var Note = function(name, text) {
 }
 
 var notes = [];
-var note_0 = new Note('Visit Note', 'Remember that time when I said, "Hey! You look just like Freddy Mercury!" and you were like, "Ugh. I hear that all the time. It just means that people immediately home in on my overbite." And I was like, "Yeah, but can you sing?"')
-notes.push(note_0);
+var note_0 = new Note('Visit Note', 'Remember that time when I said, "Hey! You look just like Freddie Mercury!" and you were like, "Ugh. I hear that all the time. It just means that people immediately home in on my overbite." And I was like, "Yeah, but can you sing?"');
+var note_1 = new Note('Visit Note', 'Remember that time when I said, "Hey! You look just like Freddie Mercury!" and you were like, "Ugh. I hear that all the time. It just means that people immediately home in on my overbite." And I was like, "Yeah, but can you sing?"');
+var note_2 = new Note('Visit Note', 'Remember that time when I said, "Hey! You look just like Freddie Mercury!" and you were like, "Ugh. I hear that all the time. It just means that people immediately home in on my overbite." And I was like, "Yeah, but can you sing?"');
+notes.push(note_0, note_1, note_2);
 
 /**********************LAB GENERATOR***********************/
 var Lab = function(name, ranges, measuresMin, measuresMax) {
@@ -231,9 +233,9 @@ var formattedEncounters = JSON.parse(json_encounters); // I did this extra stuff
 
 /***********************D3 ENCOUNTERS************************/
 function tl() {
-  var totalWidth = 750,
+  var totalWidth = 720,
       tlMargin = {top:0, right: 0, bottom: 50, left: 0},
-      tlWidth = 740,
+      tlWidth = 710,
       tlHeight = 150;
 
   var tl = d3.select('div#timeline').append('svg')
@@ -415,7 +417,8 @@ medicationInfo.append('text')
 
 medicationInfo.append('text')
   .attr({
-    class: 'itemName'
+    class: 'itemName',
+    y: 15
   })
   .text(function(d) { return d.sig });
 

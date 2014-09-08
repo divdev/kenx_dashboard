@@ -366,30 +366,24 @@ function tl() {
 tl();
 
 /***************************D3 DATE*********************************/
-var lastEncounter = encounters.pop();
-
-lastDateTitle = d3.select('h1').selectAll('text')
-  .data(lastEncounter)
-  .enter().append('text')
-    .attr({
-      x: 30,
-      y: 40
-    })
-    .text(function(d) { return d.date });
+// lastDateTitle = d3.select('h1').selectAll('text')
+//   .data(lastEncounter)
+//   .enter().append('text')
+//     .attr({
+//       x: 30,
+//       y: 40
+//     })
+//     .text(function(d) { return d.date });
 
 /***************************D3 PROBLEMS*****************************/
-diagnoses = d3.select('div#diagnoses').selectAll('svg.diagnosis')
+diagnoses = d3.select('ul#diagnoses').selectAll('li')
   .data(diagnoses)
-  .enter().append('svg')
+  .enter().append('li')
     .attr({
       class: 'diagnosis',
-      height: 25,
-      transform: 'translate(0,-25)'
     });
 
-var diagnosisInfo = diagnoses.append('g');
-
-diagnosisInfo.append('text')
+diagnoses.append('span')
   .attr({
     class: 'itemName',
     transform: 'translate(0, 15)'
@@ -397,52 +391,42 @@ diagnosisInfo.append('text')
   .text(function(d) { return d.name });
 
 /************************D3 MEDICATIONS*****************************/
-medications = d3.select('div#medications').selectAll('svg.medication')
+medications = d3.select('ul#medications').selectAll('li')
   .data(medications)
-  .enter().append('svg')
+  .enter().append('li')
     .attr({
       class: 'medication',
-      height: 25,
-      transform: 'translate(0, -25)'
     });
 
-var medicationInfo = medications.append('g');
-
-medicationInfo.append('text')
+medications.append('span')
   .attr({
     class: 'itemName',
-    transform: 'translate(0, 15)'
   })
   .text(function(d) { return d.name });
 
-medicationInfo.append('text')
+medications.append('span')
   .attr({
-    class: 'itemName',
-    y: 15
+    class: 'details',
   })
   .text(function(d) { return d.sig });
 
 /************************D3 NOTES******************************/
-notes = d3.select('div#notes').selectAll('svg.note')
+notes = d3.select('ul#notes').selectAll('li')
   .data(notes)
-  .enter().append('svg')
+  .enter().append('li')
     .attr({
       class: 'note'
     });
 
-var noteInfo = notes.append('g');
-
-noteInfo.append('text')
+notes.append('h2')
   .attr({
     class: 'noteTitle',
-    transform: 'translate(0,15)'
   })
   .text(function(d) { return d.name });
 
-noteInfo.append('text')
+notes.append('p')
   .attr({
-    class: 'noteText',
-    transform: 'translate(0,40)'
+    class: 'details',
   })
   .text(function(d) { return d.text });
 

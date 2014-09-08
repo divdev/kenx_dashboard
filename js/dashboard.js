@@ -227,15 +227,16 @@ for(var i = 0; i < encountersDates.length; i++) {
   var encounter = new Encounter();
   encounters[i] = encounter;
 }
-encounters.sort(d3.ascending);
 
 
 /***********************D3 ENCOUNTERS************************/
 function tl() {
   var totalWidth = 720,
-      tlMargin = {top:0, right: 0, bottom: 50, left: 0},
+      tlMargin = {top: 0, right: 0, bottom: 50, left: 0},
       tlWidth = 710,
       tlHeight = 140;
+
+  var tlX = d3.time.scale().domain([tenYearsAgo, today]).range([tlWidth * -5, tlWidth]);
 
   var tl = d3.select('div#timeline').append('svg')
     .attr({
@@ -245,8 +246,7 @@ function tl() {
     })
     .append('g');
 
-  var tlX = d3.time.scale().domain([tenYearsAgo, today]).range([tlWidth * -5, tlWidth]),
-      tlXAxis = d3.svg.axis()
+    var tlXAxis = d3.svg.axis()
         .ticks(25)
         .scale(tlX)
         .orient('bottom')
@@ -287,7 +287,8 @@ function tl() {
       } else {
         return 80;
       }
-    }
+    },
+    date: function(d) { return d.date }
   }
   var tlEventAttrs = {
     r: 12
@@ -358,9 +359,30 @@ function tl() {
     .attr('stroke-weight', 1);
 
   function dragmove(d) {
+    d.x = Math.max(0, Math.min(tlWidth - 5, d3.event.x));
+    var lastCircle = null;
+    var lastCircleVal = null;
+    $(".circle").each(function() {
+      var thisDouble = parseFloat($(this).attr('cx')) ;
+      if (thisDouble <= d.x) {
+        if (lastCircleVal == null || thisDouble > lastCircleVal) {
+          lastCircleVal = thisDouble;
+          lastCircle = $(this);
+        } 
+      }
+    });
+
+    medications = d3.select('ul#medications').selectAll('li')
+    .data(getMeds(lastCircle.attr("date")))
+    .enter().append('li')
+      .attr({
+        class: 'medication'
+      })
+      .on('click', filterItems);
+
     slider
-      .attr('x', d.x = Math.max(0, Math.min(tlWidth - 5, d3.event.x)));
-  }
+      .attr('x', d.x);
+  };
 };
 tl();
 
@@ -387,21 +409,22 @@ diagnoses.append('span')
 
 /************************D3 MEDICATIONS*****************************/
 medications = d3.select('ul#medications').selectAll('li')
-  .data(medications)
+  .data(encounters[0].encounterMedications)
   .enter().append('li')
     .attr({
-      class: 'medication',
-    });
+      class: 'medication'
+    })
+    .on('click', filterItems);
 
 medications.append('span')
   .attr({
-    class: 'itemName',
+    class: 'itemName'
   })
   .text(function(d) { return d.name });
 
 medications.append('span')
   .attr({
-    class: 'details',
+    class: 'details'
   })
   .text(function(d) { return d.sig });
 
@@ -509,31 +532,6 @@ labs.each(function(d, i) {
     })
     .text(function(d) { return d });
 
-  //Spark lines for your pleasure
-  // var spark = g.selectAll('svg')
-  //   .data(measurez);
-
-  // var yRange = d3.scale.linear().range([0, bHeight]).domain([d3.min(measurez, function(d) { return d.y }), d3.max(measurez, function(d) { return d.y })]);
-
-  // var lineFunc = d3.svg.line()
-  //   .x(function(d, i) { 
-  //     for(var i = measures.length; i > measures.length-5; i--) {
-  //       return 10 * i;
-  //     }
-  //   })
-  //   .y(function(d) { return yRange(d.y) })
-  //   .interpolate('linear');
-
-  // spark.enter().append('svg:path')
-  //   .attr({
-  //     d: lineFunc(measurez),
-  //     stroke: 'rgb(180,180,185)',
-  //     'stroke-width': 1.5,
-  //     'stroke-linecap': 'round',
-  //     'stroke-linejoin': 'round',
-  //     fill: 'none'
-  //   });
-
 });
 
 // Name
@@ -556,4 +554,20 @@ labName.append('text')
     return d.dates.slice(-1).pop();
   });
 
-
+/********************************************************/
+/********************************************************/
+function filterItems() {
+  if($(this.name) === encounters.encounterMedications) {
+    console.log('HEY');
+  }
+}
+function getMeds(date) {
+  var meds = [];
+  if (typeof(date) !== "number") { date = parseFloat(date); }
+  for (var i = 0; i < encounters.length; i++) {
+    if(encounters[i].date <= date) {
+      $.merge(meds, encounters[i].encounterMedications);
+    }
+  }
+  return meds;
+}

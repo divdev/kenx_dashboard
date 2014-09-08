@@ -227,8 +227,7 @@ for(var i = 0; i < encountersDates.length; i++) {
   var encounter = new Encounter();
   encounters[i] = encounter;
 }
-var json_encounters = JSON.stringify(encounters);
-var formattedEncounters = JSON.parse(json_encounters); // I did this extra stuff because d3 wasn't reading the generated javascript object format properly
+encounters.sort(d3.ascending);
 
 
 /***********************D3 ENCOUNTERS************************/
@@ -236,7 +235,7 @@ function tl() {
   var totalWidth = 720,
       tlMargin = {top:0, right: 0, bottom: 50, left: 0},
       tlWidth = 710,
-      tlHeight = 150;
+      tlHeight = 140;
 
   var tl = d3.select('div#timeline').append('svg')
     .attr({
@@ -324,7 +323,7 @@ function tl() {
   var drag = d3.behavior.drag()
     .on('drag', dragmove);
 
-// TODO - change to make dot x
+  // Put slider on last circle on page load
   var lastCircle = null;
   $(".circle").each(function() {
     var thisDouble = parseFloat($(this).attr('cx')) ;
@@ -333,7 +332,7 @@ function tl() {
     } 
   });
   var sliderG = tl.append('g')
-    .data([{x: lastCircle  + 2, y: 10}]);  // tlWidth
+    .data([{x: lastCircle  + 2, y: 10}]);  
 
   var slider = sliderG.append('rect')
     .attr({
@@ -346,7 +345,7 @@ function tl() {
     })
     .call(drag);
 
-  //if slider crosses a circle, show the contents of that circle, with date
+  // If slider crosses a circle, show the contents of that circle, with date
 
   tl.append('g')
     .attr({
@@ -366,13 +365,9 @@ function tl() {
 tl();
 
 /***************************D3 DATE*********************************/
-// lastDateTitle = d3.select('h1').selectAll('text')
-//   .data(lastEncounter)
-//   .enter().append('text')
-//     .attr({
-//       x: 30,
-//       y: 40
-//     })
+// lastDateTitle = d3.select('body').selectAll('h1')
+//   .data(encounters)
+//   .enter().append('h1')
 //     .text(function(d) { return d.date });
 
 /***************************D3 PROBLEMS*****************************/
@@ -419,14 +414,16 @@ notes = d3.select('ul#notes').selectAll('li')
     });
 
 notes.append('h2')
-  .attr({
-    class: 'noteTitle',
-  })
-  .text(function(d) { return d.name });
+  .text(function(d) { return d.name })
+  .append('span')
+    .attr({
+      class: 'date'
+    })
+    .text(function(d) { return d.date });
 
 notes.append('p')
   .attr({
-    class: 'details',
+    class: 'details'
   })
   .text(function(d) { return d.text });
 

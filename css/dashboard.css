@@ -8,7 +8,7 @@ body {
   line-height: 100%;
   background: rgb(20,20,25);
   padding: 0;
-  margin: 0;
+  margin-top: 100px;
 }
 button {
   -webkit-appearance: none;
@@ -35,17 +35,17 @@ button {
 }
 button.tab {
   background: rgb(30,30,35);
-  width: 130px;
+  width: 170px;
   height: 35px;
   position: relative;
-  top: 80px;
-  margin-left: -10px;
+  top: 60px;
+  margin-left: -30px;
   font-size: 1.1em;
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 .tab.active {
-  margin-left: -95px;
+  margin-left: -135px;
   background: rgb(60,60,65);
 }
 #timeline {
@@ -75,7 +75,11 @@ button.tab {
 
 /********************TITLE********************************/
 h1 {
+  position: relative;
   font-size: 1.3em;
+  color: rgba(250,250,255, 0.9);
+  margin-left: 140px;
+  top: 60px;
 }
 
 /*******************SECTION STYLES************************/
@@ -97,6 +101,7 @@ li {
   font-size: 0.95em;
   font-weight: normal;
   line-height: 180%;
+  margin-top: 0.5em;
 }
 #diagnoses_wrapper {
   margin-left: 5%;
@@ -117,15 +122,17 @@ li {
   margin-left: 5%;
   border-top: 1px solid rgba(250,250,255, 0.1);
 }
+#notes li p {
+  margin-top: -1em;
+}
 .note {
   width: 90%;
 }
-.noteTitle {
-  font-size: 1.2em;
+.date {
+  color: rgba(250,250,255, 0.7);
+  margin-left: 1em;
 }
-.noteText {
-  fill: rgba(190,190,195,1);
-}
+
 
 /**********************LABS STYLES************************/
 #labs_container {
